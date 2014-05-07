@@ -1,0 +1,6 @@
+2014-05-07
+==========
+
+I was thinking of putting everything into the SQLite database, but on
+reflection I probably only want to use that for storing internal results
+between runs. The configuration should be in an easy to use format, like YAML.
