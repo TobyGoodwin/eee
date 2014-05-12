@@ -18,7 +18,10 @@ cabal-version:       >=1.10
 
 executable eee
   main-is:              Main.hs
-  other-modules:        Schema
+  other-modules:        Config
+                        Database
+                        Key
+                        Schema
                         Send
   ghc-options:          -Wall -O0
   -- other-extensions:    
@@ -26,6 +29,7 @@ executable eee
                       , aeson
                       , bytestring
                       , classy-prelude
+                      , cryptohash
                       , HaskellNet
                       , mtl
                       , persistent

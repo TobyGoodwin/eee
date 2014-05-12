@@ -1,12 +1,13 @@
 module Database where
 
 import Database.Persist
+import Data.ByteString (ByteString)
 import Data.Text (Text)
 import Data.Time.Clock (getCurrentTime)
 
 import Schema
 
-store :: Text -> Text -> IO ()
+store :: ByteString -> Text -> IO ()
 store key box = do
   now <- getCurrentTime
   did <- runDB $ insert $ Delivery key box now False

@@ -3,6 +3,7 @@
 
 module Schema where
 
+import Data.ByteString (ByteString)
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
 import Database.Persist
@@ -12,7 +13,7 @@ import Control.Monad.IO.Class (liftIO)
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Delivery
-  key Text
+  key ByteString
   box Text
   time UTCTime
   arrived Bool
