@@ -1,10 +1,15 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Config where
 
+import Prelude hiding ((++))
+
+import ClassyPrelude ((++))
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Reader (ReaderT, asks, runReaderT)
 import Data.Aeson.TH
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import Data.Yaml (ParseException, decodeFileEither)
 
@@ -13,7 +18,11 @@ data Mailbox = Mailbox
                 , server :: Text
                 , username :: Text
                 , password :: Text
+                , boxId :: Maybe Text
                 } deriving (Eq, Show)
+
+boxUnique :: Mailbox -> Text
+boxUnique x = fromMaybe (username x ++ "@" ++ server x) (boxId x)
 
 data Post = Post
                 { postSender :: Text

@@ -25,12 +25,14 @@ executable eee
   build-depends:        base >=4.6 && <4.7
                       , aeson
                       , bytestring
+                      , classy-prelude
                       , HaskellNet
                       , mtl
                       , persistent
                       , persistent-sqlite
                       , persistent-template
                       , text
+                      , time
                       , transformers
                       , yaml
 

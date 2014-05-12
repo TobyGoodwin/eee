@@ -6,6 +6,7 @@ import qualified Data.Text as T
 import Network.HaskellNet.SMTP
 
 import Config
+import Database
 
 send defp t = do
   let p = fromMaybe defp (post t)
@@ -19,6 +20,9 @@ send defp t = do
                      "\r\n" ++
                      key ++ "\r\n"
   putStrLn $ "sending " ++ show msg ++ " from " ++ show frm ++ " to " ++ show to ++ " via " ++ show srv
+  -- XXX not really any good, as all we get back for any failure is "user error
+  -- (sendMail error)"
   doSMTP srv (sendMail frm to msg)
+  mapM_ (\x -> store (T.pack key) (boxUnique x)) (destination t)
 
 genKey = return "this is the key"
