@@ -19,9 +19,14 @@ cabal-version:       >=1.10
 executable eee
   main-is:              Main.hs
   other-modules:        Schema
+                        Send
+  ghc-options:          -Wall -O0
   -- other-extensions:    
   build-depends:        base >=4.6 && <4.7
                       , aeson
+                      , bytestring
+                      , HaskellNet
+                      , mtl
                       , persistent
                       , persistent-sqlite
                       , persistent-template
