@@ -12,3 +12,5 @@ store key box = do
   now <- getCurrentTime
   did <- runDB $ insert $ Delivery key box now False
   putStrLn $ "store " ++ show key ++ " " ++ show box ++ " => " ++ show did
+
+checks = runDB $ selectList [DeliveryArrived !=. True] []
