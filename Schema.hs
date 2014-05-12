@@ -21,7 +21,7 @@ Delivery
 
 runDB :: SqlPersistM a -> IO a
 runDB action =
-  runSqlite ":memory:" $ do
+  runSqlite "eee.sqlite" $ do
     runMigration migrateAll
     action
 {-
