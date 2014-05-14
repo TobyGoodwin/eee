@@ -18,6 +18,7 @@ data Mailbox = Mailbox
                 , server :: Text
                 , username :: Text
                 , password :: Text
+                , boxFolder :: Maybe Text
                 , boxId :: Maybe Text
                 } deriving (Eq, Show)
 

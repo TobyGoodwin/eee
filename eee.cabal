@@ -19,11 +19,16 @@ cabal-version:       >=1.10
 executable eee
   main-is:              Main.hs
   other-modules:        Box
+                        Check
                         Config
+                        Connection
                         Database
+                        IMAP
                         Key
                         Schema
                         Send
+                        Stack
+                        Status
   ghc-options:          -Wall -O0
   -- other-extensions:    
   build-depends:        base >=4.6 && <4.7

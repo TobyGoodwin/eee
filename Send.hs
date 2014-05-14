@@ -14,17 +14,20 @@ import Config
 import Database
 import Key
 
+send :: Post -> Test -> IO ()
 send defp t = do
   let p = fromMaybe defp (post t)
   key <- genKey
   let srv = T.unpack $ postServer p
       frm = T.unpack $ postSender p
       to = [ T.unpack $ recipient t ]
-      msg = S.pack ("From: " ++ frm ++ "\r\n" ++
-                     "To: " ++ head to ++ "\r\n" ++
-                     "Subject: EEE Test - ") ++ key ++ "\r\n" ++
-                     "\r\n" ++
-                     key ++ "\r\n"
+      -- Daft interface - it splits into a list using ByteString.lines; it
+      -- would be better to accept a list of lines in the first place
+      msg = S.pack ("From: " ++ frm ++ "\n" ++
+                     "To: " ++ head to ++ "\n" ++
+                     "Subject: EEE Test - ") ++ key ++ "\n" ++
+                     "\n" ++
+                     key
   putStrLn $ "sending " ++ show msg ++ " from " ++ show frm ++ " to " ++ show to ++ " via " ++ show srv
   -- XXX not really any good, as all we get back for any failure is "user error
   -- (sendMail error)"

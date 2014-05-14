@@ -4,6 +4,7 @@
 module Schema where
 
 import Data.ByteString (ByteString)
+import qualified Data.ByteString.Char8 as S
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
 import Database.Persist
@@ -20,16 +21,11 @@ Delivery
   deriving Show
 |]
 
+-- A deliveryK is a short Key
+deliveryK x = (S.unpack $ S.take 12 $ deliveryKey x) ++ "..."
+
 runDB :: SqlPersistM a -> IO a
 runDB action =
   runSqlite "eee.sqlite" $ do
     runMigration migrateAll
     action
-{-
-mig :: SqlPersistM ()
-mig = do
-  runMigration migrateAll
-  michaelId <- insert $ Person "Michael" 26
-  michael <- get michaelId
-  liftIO $ print michael
-  -}
