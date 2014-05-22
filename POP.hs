@@ -1,24 +1,25 @@
-module IMAP where
+module POP 
+  ( arrived
+  ) where
+
+import Connection
+import Config
 
 import Control.Exception (tryJust)
 import Control.Monad (mfilter)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as S
-import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
-import Network.HaskellNet.IMAP
-import Network.HaskellNet.IMAP.Connection
-import Network.HaskellNet.IMAP.SSL
+import Network.HaskellNet.POP3
+import Network.HaskellNet.POP3.Connection
+import Network.HaskellNet.POP3.SSL
 import System.IO.Error (isUserError)
 
-import Connection
-import Config
-
 arrived :: Connection -> ByteString -> Mailbox -> IO Bool
-arrived Plain = arrived' connectIMAP
-arrived Secure = arrived' connectIMAPSSL
+arrived Plain = arrived' connectPop3
+arrived Secure = arrived' connectPop3SSL
 
-arrived' :: (String -> IO IMAPConnection) -> ByteString -> Mailbox -> IO Bool
+arrived' :: (String -> IO POP3Connection) -> ByteString -> Mailbox -> IO Bool
 arrived' connector key box = do
   s <- tryJust (mfilter isUserError . Just) session
   case s of
@@ -29,9 +30,10 @@ arrived' connector key box = do
   where
     session = do
       p <- connector $ T.unpack $ server box
-      login p (T.unpack $ username box) (T.unpack $ password box)
-      select p $ fromMaybe "INBOX" (fmap T.unpack $ boxFolder box)
-      ms <- search p [BODYs (S.unpack key)]
+      user p $ T.unpack $ username box
+      pass p $ T.unpack $ password box
+      ms <- allList p
       -- putStrLn $ "ms is " ++ show ms
-      close p
-      return $ not $ null ms
+      cs <- mapM (retr p . fst) ms
+      closePop3 p
+      return $ any (key `S.isInfixOf`) cs

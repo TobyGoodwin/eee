@@ -26,9 +26,15 @@ run = do
   args <- liftIO $ getArgs
   case take 1 args of
     ("check":_) -> checkAll
+    ("clear":_) -> liftIO clearAll
     ("send":_) -> sendAll
     ("status":_) -> statusAll
     _ -> usage
+
+clearAll :: IO ()
+clearAll = do
+  cs <- checks
+  mapM_ setArrived cs
 
 statusAll :: Eee ()
 statusAll = liftIO $ do
@@ -46,10 +52,10 @@ sendAll = do
 
 checkAll :: Eee ()
 checkAll = do
+  ts <- asks tests
   cs <- liftIO $ checks
   -- liftIO $ putStrLn $ "checks is: " ++ show cs
-  mapM_ check cs
-  return ()
+  liftIO $ mapM_ (check ts) cs
 
 usage :: Eee ()
 usage = do

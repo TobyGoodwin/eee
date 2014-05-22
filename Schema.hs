@@ -7,10 +7,8 @@ import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as S
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
-import Database.Persist
 import Database.Persist.TH
 import Database.Persist.Sqlite
-import Control.Monad.IO.Class (liftIO)
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Delivery
@@ -22,7 +20,10 @@ Delivery
 |]
 
 -- A deliveryK is a short Key
-deliveryK x = (S.unpack $ S.take 12 $ deliveryKey x) ++ "..."
+deliveryK :: Delivery -> String
+deliveryK = shorten . deliveryKey
+shorten :: ByteString -> String
+shorten k = S.unpack (S.take 12 k) ++ "..."
 
 runDB :: SqlPersistM a -> IO a
 runDB action =

@@ -10,7 +10,11 @@ import Schema
 store :: ByteString -> Text -> IO ()
 store key box = do
   now <- getCurrentTime
-  did <- runDB $ insert $ Delivery key box now False
-  putStrLn $ "store " ++ show key ++ " " ++ show box ++ " => " ++ show did
+  runDB $ insert_ $ Delivery key box now False
+  putStrLn $ "expect " ++ shorten key ++ " for " ++ show box
 
+checks :: IO [Entity Delivery]
 checks = runDB $ selectList [DeliveryArrived !=. True] []
+
+setArrived :: Entity Delivery -> IO ()
+setArrived (Entity k _) = runDB $ update k [DeliveryArrived =. True]

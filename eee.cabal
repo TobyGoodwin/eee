@@ -25,6 +25,7 @@ executable eee
                         Database
                         IMAP
                         Key
+                        POP
                         Schema
                         Send
                         Stack

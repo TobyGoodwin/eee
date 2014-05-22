@@ -1,16 +1,16 @@
 module Status where
 
-import qualified Data.Text as T
 import Data.Time.Clock (NominalDiffTime, diffUTCTime, getCurrentTime)
 import Database.Persist (Entity(..))
 
 import Schema
 
+status :: Entity Delivery -> IO ()
 status (Entity _ d) = do
   now <- getCurrentTime
   let t = niceTime $ diffUTCTime now $ deliveryTime d
-  putStrLn $ T.unpack (deliveryBox d) ++
-                        " missing for " ++ t
+  putStrLn $ deliveryK d ++ " missing for " ++  show (deliveryBox d) ++
+              " after " ++ t
 
 niceTime :: NominalDiffTime -> String
 niceTime x | x < 100 = overUnit 1 "sec"
