@@ -1,5 +1,6 @@
 {-# LANGUAGE QuasiQuotes, TypeFamilies, GeneralizedNewtypeDeriving,
-    TemplateHaskell, OverloadedStrings, GADTs, FlexibleContexts #-}
+    TemplateHaskell, OverloadedStrings, GADTs, FlexibleContexts,
+    MultiParamTypeClasses #-}
 
 module Schema where
 

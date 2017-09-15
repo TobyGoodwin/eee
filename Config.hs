@@ -6,12 +6,9 @@ module Config where
 import Prelude hiding ((++))
 
 import ClassyPrelude ((++))
-import Control.Monad.IO.Class (liftIO)
-import Control.Monad.Reader (ReaderT, asks, runReaderT)
 import Data.Aeson.TH
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
-import Data.Yaml (ParseException, decodeFileEither)
 
 data Mailbox = Mailbox
                 { protocol :: Text

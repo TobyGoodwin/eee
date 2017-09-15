@@ -3,7 +3,7 @@
 module Main where
 
 import Control.Monad.IO.Class (liftIO)
-import Control.Monad.Reader (ReaderT, asks, runReaderT)
+import Control.Monad.Reader (asks, runReaderT)
 import Data.Yaml (ParseException, decodeFileEither)
 import System.Environment (getArgs)
 
