@@ -32,7 +32,7 @@ executable eee
                         Status
   ghc-options:          -Wall -O0
   -- other-extensions:    
-  build-depends:        base >=4.6 && <4.7
+  build-depends:        base 
                       , aeson
                       , bytestring
                       , classy-prelude
